@@ -3,6 +3,10 @@ $:.unshift(File.dirname(__FILE__) + '/../lib')
 
 require 'ugly_trivia/game'
 
+if ENV['TRIVIA_RANDOM_SEED']
+  srand Integer(ENV['TRIVIA_RANDOM_SEED'])
+end
+
 not_a_winner = false
 
 game = UglyTrivia::Game.new
@@ -12,15 +16,15 @@ game.add 'Pat'
 game.add 'Sue'
 
 begin
-  
+
   game.roll(rand(5) + 1)
-  
+
   if rand(9) == 7
     not_a_winner = game.wrong_answer
   else
     not_a_winner = game.was_correctly_answered
   end
-  
-  
-  
+
+
+
 end while not_a_winner
