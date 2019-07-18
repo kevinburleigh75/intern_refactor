@@ -30,8 +30,6 @@ module UglyTrivia
 
       puts "#{player_name} was added"
       puts "They are player number #{@players.length}"
-
-      true
     end
 
     def roll(roll)
@@ -39,27 +37,18 @@ module UglyTrivia
       puts "They have rolled a #{roll}"
 
       if @in_penalty_box[@current_player]
-        if roll % 2 != 0
-          @is_getting_out_of_penalty_box = true
+        @is_getting_out_of_penalty_box = (roll % 2 != 0)
 
+        if @is_getting_out_of_penalty_box
           puts "#{@players[@current_player]} is getting out of the penalty box"
-          @places[@current_player] = @places[@current_player] + roll
-          @places[@current_player] = @places[@current_player] - 12 if @places[@current_player] > 11
-
-          puts "#{@players[@current_player]}'s new location is #{@places[@current_player]}"
-          puts "The category is #{current_category}"
-          ask_question
+          ## This fixes a bug if we uncomment it.
+          # @in_penalty_box[@current_player] = false
+          handle_player_movement(roll: roll)
         else
           puts "#{@players[@current_player]} is not getting out of the penalty box"
-          @is_getting_out_of_penalty_box = false
-          end
+        end
       else
-        @places[@current_player] = @places[@current_player] + roll
-        @places[@current_player] = @places[@current_player] - 12 if @places[@current_player] > 11
-
-        puts "#{@players[@current_player]}'s new location is #{@places[@current_player]}"
-        puts "The category is #{current_category}"
-        ask_question
+        handle_player_movement(roll: roll)
       end
     end
 
@@ -91,6 +80,18 @@ module UglyTrivia
     end
 
   private
+
+    def handle_player_movement(roll: roll)
+      advance_player_position(roll: roll)
+      puts "#{@players[@current_player]}'s new location is #{@places[@current_player]}"
+      puts "The category is #{current_category}"
+      ask_question
+    end
+
+    def advance_player_position(roll:)
+      @places[@current_player] = @places[@current_player] + roll
+      @places[@current_player] = @places[@current_player] - 12 if @places[@current_player] > 11
+    end
 
     def do_correct_answer(output_typo:)
       if output_typo
