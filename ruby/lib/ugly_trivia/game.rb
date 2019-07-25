@@ -55,10 +55,10 @@ module UglyTrivia
     def was_correctly_answered
       if @in_penalty_box[@current_player]
         if @is_getting_out_of_penalty_box
-          do_correct_answer(output_typo: false)
+          do_correct_answer
         end
       else
-        do_correct_answer(output_typo: true)
+        do_correct_answer
       end
 
       game_should_continue = !current_player_is_a_winner?
@@ -93,12 +93,8 @@ module UglyTrivia
       @places[@current_player] = @places[@current_player] - 12 if @places[@current_player] > 11
     end
 
-    def do_correct_answer(output_typo:)
-      if output_typo
-        puts 'Answer was corrent!!!!'
-      else
-        puts 'Answer was correct!!!!'
-      end
+    def do_correct_answer
+      puts 'Answer was correct!!!!'
 
       @purses[@current_player] += 1
       puts "#{@players[@current_player]} now has #{@purses[@current_player]} Gold Coins."
