@@ -1,7 +1,7 @@
 module UglyTrivia
   class Game
-    def  initialize
-      @players = []
+    def initialize
+      @players        = []
       @places         = Array.new(6, 0)
       @purses         = Array.new(6, 0)
       @in_penalty_box = Array.new(6, nil)
@@ -71,8 +71,7 @@ module UglyTrivia
     end
 
     def advance_to_next_player
-      @current_player += 1
-      @current_player = 0 if @current_player == @players.length
+      @current_player = (@current_player + 1) % @players.length
     end
 
   private
@@ -85,8 +84,7 @@ module UglyTrivia
     end
 
     def advance_player_position(roll:)
-      @places[@current_player] = @places[@current_player] + roll
-      @places[@current_player] = @places[@current_player] - 12 if @places[@current_player] > 11
+      @places[@current_player] = (@places[@current_player] + roll) % 12
     end
 
     def do_correct_answer
