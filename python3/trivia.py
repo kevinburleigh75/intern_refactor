@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+## Some random comment.
+
 class Game:
     def __init__(self):
         self.players = []
